@@ -23,8 +23,6 @@
             v-for="contact in contacts"
             :key="contact.id"
             class="q-my-md"
-            clickable
-            v-ripple
           >
             <q-item-section avatar>
               <q-avatar color="primary" text-color="white">{{
@@ -37,11 +35,11 @@
               <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
             </q-item-section>
 
-            <q-item-section side>
-              <q-icon name="edit" color="secondary" />
+            <q-item-section side v-ripple>
+              <q-icon name="edit" color="secondary"  @click="Edit"/>
             </q-item-section>
             <q-item-section side>
-              <q-icon name="delete" color="red" />
+              <q-icon name="delete" color="red" @click="Delete"/>
             </q-item-section>
             <q-separator />
           </q-item>
@@ -49,7 +47,7 @@
 
         <q-page-sticky position="bottom" :offset="[18, 18]">
             <q-btn fab icon="add" color="accent" />
-          </q-page-sticky>
+        </q-page-sticky>
     </q-page>
   </q-page-container>
 </template>
@@ -85,6 +83,14 @@ export default {
   computed: {
     progressLabel1 () {
       return (this.progress1 * 100).toFixed(2) + '%'
+    }
+  },
+  methods: {
+    Edit () {
+      alert('Editing')
+    },
+    Delete () {
+      alert('Deleting')
     }
   }
 }

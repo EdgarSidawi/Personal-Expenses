@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="q-ma-lg">
     <h5>History</h5>
   </q-page>
 </template>
