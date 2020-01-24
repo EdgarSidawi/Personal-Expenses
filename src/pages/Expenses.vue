@@ -18,7 +18,6 @@
         </q-linear-progress>
       </div>
 
-      <q-container>
         <q-list>
           <q-item
             v-for="contact in contacts"
@@ -47,7 +46,10 @@
             <q-separator />
           </q-item>
         </q-list>
-      </q-container>
+
+        <q-page-sticky position="bottom" :offset="[18, 18]">
+            <q-btn fab icon="add" color="accent" />
+          </q-page-sticky>
     </q-page>
   </q-page-container>
 </template>
