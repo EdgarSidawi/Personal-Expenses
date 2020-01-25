@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   data () {
     return {
@@ -74,6 +76,9 @@ export default {
     progressLabel1 () {
       return (this.progress1 * 100).toFixed(2) + '%'
     }
+  },
+  mounted: {
+    ...Map
   },
   methods: {
     Edit () {
