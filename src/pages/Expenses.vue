@@ -1,55 +1,45 @@
 <template>
-  <q-page-container>
-    <q-page>
-      <div class="q-pa-md q-mr-sm">
-        <q-linear-progress
-          size="40px"
-          :value="progress1"
-          color="accent"
-          class="q-mx-sm "
-        >
-          <div class="absolute-full flex flex-center">
-            <q-badge
-              color="white"
-              text-color="accent"
-              :label="progressLabel1"
-            />
-          </div>
-        </q-linear-progress>
-      </div>
+  <q-page>
+    <div class="q-pa-md q-mr-sm">
+      <q-linear-progress
+        size="40px"
+        :value="progress1"
+        color="accent"
+        class="q-mx-sm "
+      >
+        <div class="absolute-full flex flex-center">
+          <q-badge color="white" text-color="accent" :label="progressLabel1" />
+        </div>
+      </q-linear-progress>
+    </div>
 
-        <q-list>
-          <q-item
-            v-for="contact in contacts"
-            :key="contact.id"
-            class="q-my-md"
-          >
-            <q-item-section avatar>
-              <q-avatar color="primary" text-color="white">{{
-                contact.letter
-              }}</q-avatar>
-            </q-item-section>
+    <q-list>
+      <q-item v-for="contact in contacts" :key="contact.id" class="q-my-md">
+        <q-item-section avatar>
+          <q-avatar color="primary" text-color="white">{{
+            contact.letter
+          }}</q-avatar>
+        </q-item-section>
 
-            <q-item-section>
-              <q-item-label>{{ contact.name }}</q-item-label>
-              <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
-            </q-item-section>
+        <q-item-section>
+          <q-item-label>{{ contact.name }}</q-item-label>
+          <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
+        </q-item-section>
 
-            <q-item-section side v-ripple>
-              <q-icon name="edit" color="secondary"  @click="Edit"/>
-            </q-item-section>
-            <q-item-section side>
-              <q-icon name="delete" color="red" @click="Delete"/>
-            </q-item-section>
-            <q-separator />
-          </q-item>
-        </q-list>
+        <q-item-section side v-ripple>
+          <q-icon name="edit" color="secondary" @click="Edit" />
+        </q-item-section>
+        <q-item-section side>
+          <q-icon name="delete" color="red" @click="Delete" />
+        </q-item-section>
+        <q-separator />
+      </q-item>
+    </q-list>
 
-        <q-page-sticky position="bottom" :offset="[18, 18]">
-            <q-btn fab icon="add" color="accent" />
-        </q-page-sticky>
-    </q-page>
-  </q-page-container>
+    <q-page-sticky position="bottom" :offset="[18, 18]">
+      <q-btn fab icon="add" color="accent" />
+    </q-page-sticky>
+  </q-page>
 </template>
 
 <script>
