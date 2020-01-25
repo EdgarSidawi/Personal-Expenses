@@ -1,5 +1,5 @@
 <template>
-  <q-page>
+  <q-page class="q-py-xl">
     <div class="q-pa-md q-mr-sm">
       <q-linear-progress
         size="40px"
@@ -26,7 +26,7 @@
           <q-item-label caption lines="1">{{ contact.email }}</q-item-label>
         </q-item-section>
 
-        <q-item-section side v-ripple>
+        <q-item-section side >
           <q-icon name="edit" color="secondary" @click="Edit" />
         </q-item-section>
         <q-item-section side>
