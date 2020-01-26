@@ -15,6 +15,13 @@ const mutations = {
   },
   addNewExpense (state, payload) {
     state.expenses.push(payload)
+  },
+  editExpenseValue (state, payload) {
+    state.expenses[payload.index] = payload.data
+    return state.expenses
+  },
+  removeExpense (state, payload) {
+    state.expenses.splice(payload, 1)
   }
 
 }
@@ -28,6 +35,20 @@ const actions = {
   addExpense ({ commit }, payload) {
     axiosInstance.post('api/1/expense', payload).then(res => {
       commit('addNewExpense', { title: res.data.title, amount: res.data.amount })
+    })
+  },
+  editExpense ({ commit }, payload) {
+    axiosInstance.patch('api/1/expense/' + payload.expenseInfo.id, payload.form).then(res => {
+      let expenseInfo = {
+        data: res.data,
+        index: payload.expenseInfo.index
+      }
+      commit('editExpenseValue', expenseInfo)
+    })
+  },
+  deleteExpense ({ commit }, payload) {
+    axiosInstance.delete('api/1/expense/' + payload.id).then(res => {
+      commit('removeExpense', payload.index)
     })
   }
 }

@@ -40,7 +40,7 @@
       <q-btn fab icon="add" color="accent" @click="showDialog=true"/>
     </q-page-sticky>
 
-    <q-dialog v-model="showDialog" >
+    <q-dialog v-model="showDialog" persistent transition-show="scale" transition-hide="scale">
       <q-card class="my-card q-pa-md" >
         <q-form
         @submit.prevent
@@ -67,10 +67,24 @@
           />
 
           <div>
-            <q-btn label="Add Expense"
+            <div v-if="editing">
+            <q-btn
+            label="Edit"
+            type="submit"
+            color="primary"
+            @click="editExpenseValue"
+            />
+             <q-btn flat color="red" label="Cancel" @click="resetForm"/>
+            </div>
+
+            <div v-else>
+            <q-btn
+            label="Add Expense"
             type="submit"
             color="primary"
             @click="newExpense"/>
+            <q-btn flat color="red" label="Cancel" @click="resetForm"/>
+            </div>
           </div>
         </q-form>
       </q-card>
@@ -86,6 +100,10 @@ import { mapActions, mapState } from 'vuex'
 export default {
   data () {
     return {
+      expenseInfo: {
+        id: null,
+        index: null
+      },
       editing: false,
       form: {
         title: '',
@@ -103,21 +121,42 @@ export default {
     }
   },
   methods: {
-    ...mapActions('store', ['getExpenses', 'addExpense']),
+    ...mapActions('store', ['getExpenses', 'addExpense', 'editExpense', 'deleteExpense']),
     Edit (index) {
-      console.log(this.expenses)
+      this.editing = true
+      this.showDialog = true
+      this.form.title = this.expenses[index].title
+      this.form.amount = this.expenses[index].amount
+      this.expenseInfo.id = this.expenses[index].id
+      this.expenseInfo.index = index
     },
     Delete (index) {
-      alert('Deleting')
+      let payload = {
+        id: this.expenses[index].id,
+        index: index
+      }
+      this.deleteExpense(payload)
     },
     resetForm () {
       this.form = {}
+      this.editing = false
+      this.showDialog = false
+      this.expenseId = null
     },
     newExpense () {
       if (this.form.title !== '' && this.form.amount != null) {
         this.addExpense(this.form)
         this.resetForm()
-        this.showDialog = false
+      }
+    },
+    editExpenseValue () {
+      if (this.form.title !== '' && this.form.amount != null) {
+        let payload = {
+          form: this.form,
+          expenseInfo: this.expenseInfo
+        }
+        this.editExpense(payload)
+        this.resetForm()
       }
     }
   },
