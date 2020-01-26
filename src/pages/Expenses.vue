@@ -155,6 +155,8 @@ export default {
           form: this.form,
           expenseInfo: this.expenseInfo
         }
+        // this.expenses[this.expenseInfo.index].title = this.form.title
+        // this.expenses[this.expenseInfo.index].amount = this.form.amount
         this.editExpense(payload)
         this.resetForm()
       }

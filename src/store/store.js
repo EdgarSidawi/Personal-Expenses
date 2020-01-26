@@ -17,8 +17,8 @@ const mutations = {
     state.expenses.push(payload)
   },
   editExpenseValue (state, payload) {
-    state.expenses[payload.index] = payload.data
-    return state.expenses
+    state.expenses[payload.index].title = payload.data.title
+    state.expenses[payload.index].amount = payload.data.amount
   },
   removeExpense (state, payload) {
     state.expenses.splice(payload, 1)
@@ -34,7 +34,7 @@ const actions = {
   },
   addExpense ({ commit }, payload) {
     axiosInstance.post('api/1/expense', payload).then(res => {
-      commit('addNewExpense', { title: res.data.title, amount: res.data.amount })
+      commit('addNewExpense', { id: res.data.id, title: res.data.title, amount: res.data.amount })
     })
   },
   editExpense ({ commit }, payload) {
