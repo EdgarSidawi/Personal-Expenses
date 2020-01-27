@@ -34,7 +34,7 @@ const actions = {
   },
   addExpense ({ commit }, payload) {
     axiosInstance.post('api/1/expense', payload).then(res => {
-      commit('addNewExpense', { id: res.data.id, title: res.data.title, amount: res.data.amount })
+      commit('addNewExpense', { id: res.data.id, title: res.data.title, amount: res.data.amount, created_at: res.data.created_at })
     })
   },
   editExpense ({ commit }, payload) {

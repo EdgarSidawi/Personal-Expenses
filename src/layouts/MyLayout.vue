@@ -7,15 +7,17 @@
           dense
           round
           @click="leftDrawerOpen = !leftDrawerOpen"
+          v-show="title !== 'Login'"
           icon="menu"
           aria-label="Menu"
         />
 
         <q-toolbar-title class="q-pl-lg">
-          {{title}}
+          {{title == 'Login' ? 'Welcome to My Expenses App': title}}
         </q-toolbar-title>
 
          <q-drawer
+         v-if="title !== 'Login'"
         v-model="leftDrawerOpen"
         show-if-above
         :width="250"
@@ -27,7 +29,7 @@
             exact
             clickable
             v-ripple
-            to="/">
+            to="/expenses">
               <q-item-section avatar>
                 <q-icon name="list"/>
               </q-item-section>
@@ -110,6 +112,8 @@ export default {
     title () {
       let currentPath = this.$route.fullPath
       if (currentPath === '/') {
+        return 'Login'
+      } else if (currentPath === '/expenses') {
         return 'Personal Expenses'
       } else if (currentPath === '/history') {
         return 'History'
