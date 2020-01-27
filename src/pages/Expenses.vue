@@ -122,7 +122,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('store', ['getExpenses', 'addExpense', 'editExpense', 'deleteExpense']),
+    ...mapActions('store', ['getExpenses', 'addExpense', 'editExpense', 'deleteExpense', 'getSession']),
     Edit (index) {
       this.editing = true
       this.showDialog = true
@@ -166,9 +166,8 @@ export default {
   created () {
     if (!this.isLoggedIn) {
       this.$router.push('/')
-    } else {
-      this.getExpenses()
     }
+    this.getSession()
   }
 }
 </script>

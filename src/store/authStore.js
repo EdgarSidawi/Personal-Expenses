@@ -53,7 +53,7 @@ const actions = {
     commit('logout')
   },
   refreshToken ({ commit }) {
-    axiosInstance.post('api/auth/refresh').then(res => {
+    axiosInstance.post('api/auth/refresh?token=' + localStorage.getItem('token')).then(res => {
       commit('login', res.data)
     })
   }
