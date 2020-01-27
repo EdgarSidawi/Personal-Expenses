@@ -31,7 +31,7 @@
                 label="Email"
                 lazy-rules
                 :rules="[ val => val && val.length > 0 || 'Please enter your email',
-                val=> !val.email || 'Please enter a valid email']"
+                val=> val.includes('@') || 'Please enter a valid email']"
             />
 
             <q-input
@@ -70,7 +70,7 @@
                     label="Email"
                     lazy-rules
                     :rules="[ val => val && val.length > 0 || 'Please enter your email',
-                    val=> !val.email || 'Please enter a valid email']"
+                    val=> val.includes('@') || 'Please enter a valid email']"
                 />
 
                 <q-input
@@ -98,6 +98,8 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   data () {
     return {
@@ -113,15 +115,26 @@ export default {
       tab: 'login'
     }
   },
+  computed: {
+    ...mapGetters('authStore', ['isLoggedIn'])
+  },
   methods: {
+    ...mapActions('authStore', ['registerUser', 'loginUser']),
     login () {
-      if (this.loginForm.email !== '' && this.loginForm.password !== '') {
-        console.log('login')
+      if (this.loginForm.email.indexOf('@') !== -1 && this.loginForm.password !== '') {
+        this.loginUser(this.loginForm)
       }
     },
     register () {
-      if (this.registerForm.email !== '' && this.registerForm.password !== '' && this.registerForm.name !== '') {
-        console.log('register')
+      if (this.registerForm.email.indexOf('@') !== -1 && this.registerForm.password !== '' && this.registerForm.name !== '') {
+        this.registerUser(this.registerForm)
+      }
+    }
+  },
+  watch: {
+    isLoggedIn () {
+      if (this.isLoggedIn) {
+        this.$router.push('/expenses')
       }
     }
   }

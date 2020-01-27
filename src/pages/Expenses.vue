@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -116,6 +116,7 @@ export default {
 
   computed: {
     ...mapState('store', ['expenses']),
+    ...mapGetters('authStore', ['isLoggedIn']),
     progressLabel1 () {
       return (this.progress1 * 100).toFixed(2) + '%'
     }
@@ -163,7 +164,11 @@ export default {
     }
   },
   created () {
-    this.getExpenses()
+    if (!this.isLoggedIn) {
+      this.$router.push('/')
+    } else {
+      this.getExpenses()
+    }
   }
 }
 </script>

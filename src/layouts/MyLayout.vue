@@ -13,7 +13,9 @@
         />
 
         <q-toolbar-title class="q-pl-lg">
-          {{title == 'Login' ? 'Welcome to My Expenses App': title}}
+          <span>
+           {{title == 'Login' ? 'Welcome to My Expenses App': title}}
+          </span>
         </q-toolbar-title>
 
          <q-drawer
@@ -67,7 +69,7 @@
               </q-item-section>
             </q-item>
 
-            <q-item clickable v-ripple class="q-mt-xl text-red" >
+            <q-item clickable v-ripple class="q-mt-xl text-red" @click="logOut">
               <q-item-section avatar>
                 <q-icon name="logout" />
               </q-item-section>
@@ -84,8 +86,8 @@
             <q-avatar size="56px" class="q-mb-sm">
               <img src="https://cdn.quasar.dev/img/boy-avatar.png">
             </q-avatar>
-            <div class="text-weight-bold">Edgar Sidawi</div>
-            <div>edgarfranksidawi@gmail.com</div>
+            <div class="text-weight-bold">{{setUserInfo.user}}</div>
+            <div>{{setUserInfo.email}}</div>
           </div>
         </q-img>
       </q-drawer>
@@ -100,6 +102,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   data () {
@@ -109,6 +112,7 @@ export default {
   },
 
   computed: {
+    ...mapGetters('authStore', ['isLoggedIn', 'userinfo']),
     title () {
       let currentPath = this.$route.fullPath
       if (currentPath === '/') {
@@ -121,10 +125,23 @@ export default {
         return 'Help'
       }
       return null
+    },
+    setUserInfo () {
+      return this.userinfo
     }
   },
-  components: {
-
+  watch: {
+    isLoggedIn () {
+      if (!this.isLoggedIn) {
+        this.$router.replace('/')
+      }
+    }
+  },
+  methods: {
+    ...mapActions('authStore', ['logout']),
+    logOut () {
+      this.logout()
+    }
   }
 }
 </script>

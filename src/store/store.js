@@ -28,28 +28,37 @@ const mutations = {
 
 const actions = {
   getExpenses ({ commit }) {
-    axiosInstance.get('api/1/expense').then(res => {
-      commit('setExpenses', res.data)
-    })
+    axiosInstance.get(`api/${localStorage.getItem('user_id')}/expense`)
+      .then(res => {
+        commit('setExpenses', res.data)
+      })
   },
   addExpense ({ commit }, payload) {
-    axiosInstance.post('api/1/expense', payload).then(res => {
-      commit('addNewExpense', { id: res.data.id, title: res.data.title, amount: res.data.amount, created_at: res.data.created_at })
-    })
+    axiosInstance.post(`api/${localStorage.getItem('user_id')}/expense`, payload)
+      .then(res => {
+        commit('addNewExpense', {
+          id: res.data.id,
+          title: res.data.title,
+          amount: res.data.amount,
+          created_at: res.data.created_at
+        })
+      })
   },
   editExpense ({ commit }, payload) {
-    axiosInstance.patch('api/1/expense/' + payload.expenseInfo.id, payload.form).then(res => {
-      let expenseInfo = {
-        data: res.data,
-        index: payload.expenseInfo.index
-      }
-      commit('editExpenseValue', expenseInfo)
-    })
+    axiosInstance.patch(`api/${localStorage.getItem('user_id')}/expense/${payload.expenseInfo.id}`, payload.form)
+      .then(res => {
+        let expenseInfo = {
+          data: res.data,
+          index: payload.expenseInfo.index
+        }
+        commit('editExpenseValue', expenseInfo)
+      })
   },
   deleteExpense ({ commit }, payload) {
-    axiosInstance.delete('api/1/expense/' + payload.id).then(res => {
-      commit('removeExpense', payload.index)
-    })
+    axiosInstance.delete(`api/${localStorage.getItem('user_id')}/expense/${payload.id}`)
+      .then(res => {
+        commit('removeExpense', payload.index)
+      })
   }
 }
 
