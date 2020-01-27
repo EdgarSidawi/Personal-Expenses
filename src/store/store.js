@@ -34,7 +34,6 @@ const actions = {
       })
   },
   addExpense ({ commit }, payload) {
-    console.log('add Expense reached')
     axiosInstance.post(`api/${localStorage.getItem('session')}/expense`, payload)
       .then(res => {
         commit('addNewExpense', {
@@ -63,10 +62,6 @@ const actions = {
   },
   getSession ({ commit, dispatch }) {
     axiosInstance.get('api/session?token=' + localStorage.getItem('token')).then(res => {
-      console.log(res)
-      console.log(res.data)
-      console.log(res.data[0])
-      console.log(res.data.length)
       if (res.data.length !== 0) {
         localStorage.setItem('session', res.data[0].id)
         dispatch('getExpenses')

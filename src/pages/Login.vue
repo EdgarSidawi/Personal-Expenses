@@ -134,7 +134,7 @@ export default {
   watch: {
     isLoggedIn () {
       if (this.isLoggedIn) {
-        this.$router.push('/expenses')
+        this.$router.replace('/expenses')
       }
     }
   }

@@ -22,7 +22,7 @@ export default {
   },
   created () {
     if (!this.isLoggedIn) {
-      this.$router.push('/')
+      this.$router.replace('/')
     }
   }
 }
