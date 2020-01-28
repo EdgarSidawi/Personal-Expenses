@@ -1,9 +1,29 @@
 <template>
-  <q-page class="q-py-xl">
+<div>
+
+  <q-page v-if="!session" class="q-pa-xl">
+      <q-form
+         @submit.prevent
+          class="q-gutter-md"
+      >
+        <q-input
+          filled
+          type="number"
+          v-model="budgetInfo.budget"
+          label="Your Budget"
+          lazy-rules
+          :rules="[ val => val && val.length > 0 || 'Please in an valid amount',
+          val => val > 0 || 'Amount can not be a negative number']"
+        />
+        <q-btn label="Start Session" color="green" @click="sessionCreate"/>
+      </q-form>
+  </q-page>
+
+  <q-page class="q-py-xl" v-if="session">
     <div class="q-pa-md q-mr-sm">
       <q-linear-progress
         size="40px"
-        :value="progress1"
+        :value="totalExpense"
         color="accent"
         class="q-mx-sm"
       >
@@ -91,7 +111,7 @@
     </q-dialog>
 
   </q-page>
-
+</div>
 </template>
 
 <script>
@@ -100,6 +120,9 @@ import { mapActions, mapState, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      budgetInfo: {
+        budget: null
+      },
       expenseInfo: {
         id: null,
         index: null
@@ -109,20 +132,30 @@ export default {
         title: '',
         amount: null
       },
-      showDialog: false,
-      progress1: 0.3
+      showDialog: false
     }
   },
 
   computed: {
-    ...mapState('store', ['expenses']),
+    ...mapState('store', ['expenses', 'session', 'budget', 'totalExpense']),
     ...mapGetters('authStore', ['isLoggedIn']),
     progressLabel1 () {
-      return (this.progress1 * 100).toFixed(2) + '%'
+      return (this.totalExpense * 100).toFixed(2) + '%'
+    },
+    progress () {
+      let percentage = (this.totalExpense / this.budget)
+      return percentage
     }
   },
   methods: {
-    ...mapActions('store', ['getExpenses', 'addExpense', 'editExpense', 'deleteExpense', 'getSession']),
+    ...mapActions('store', [
+      'getExpenses',
+      'addExpense',
+      'editExpense',
+      'deleteExpense',
+      'getSession',
+      'createSession'
+    ]),
     Edit (index) {
       this.editing = true
       this.showDialog = true
@@ -161,13 +194,19 @@ export default {
         this.editExpense(payload)
         this.resetForm()
       }
+    },
+    sessionCreate () {
+      if (this.budgetInfo.budget !== null && this.budgetInfo.budget > 0) {
+        this.createSession(this.budgetInfo)
+      }
     }
   },
   created () {
     if (!this.isLoggedIn) {
       this.$router.replace('/')
+    } else {
+      this.getSession()
     }
-    this.getSession()
   }
 }
 </script>

@@ -48,7 +48,6 @@ const actions = {
   },
   logout ({ commit }) {
     axiosInstance.post('api/auth/logout?token=' + localStorage.getItem('token')).then(res => {
-      console.log(res)
     })
     commit('logout')
   },

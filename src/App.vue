@@ -17,7 +17,6 @@ export default {
     if (localStorage.getItem('token') !== null) {
       this.refreshToken()
     }
-    console.log(localStorage.getItem('token'))
   }
 }
 </script>
