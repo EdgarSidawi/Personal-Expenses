@@ -45,20 +45,6 @@
             exact
             clickable
             v-ripple
-            to="/history">
-              <q-item-section avatar>
-                <q-icon name="history" />
-              </q-item-section>
-
-              <q-item-section>
-                History
-              </q-item-section>
-            </q-item>
-
-            <q-item
-            exact
-            clickable
-            v-ripple
             to="/help">
               <q-item-section avatar>
                 <q-icon name="help" />
@@ -119,8 +105,6 @@ export default {
         return 'Login'
       } else if (currentPath === '/expenses') {
         return 'Personal Expenses'
-      } else if (currentPath === '/history') {
-        return 'History'
       } else if (currentPath === '/help') {
         return 'Help'
       }
